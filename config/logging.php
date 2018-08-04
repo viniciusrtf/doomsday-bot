@@ -36,13 +36,13 @@ return [
         ],
 
         'single' => [
-            'driver' => 'single',
+            'driver' => env('LOG_SINGLE_DRIVER', 'single'),
             'path' => storage_path('logs/laravel.log'),
             'level' => 'debug',
         ],
 
         'daily' => [
-            'driver' => 'daily',
+            'driver' => env('LOG_DAILY_DRIVER', 'daily'),
             'path' => storage_path('logs/laravel.log'),
             'level' => 'debug',
             'days' => 7,
