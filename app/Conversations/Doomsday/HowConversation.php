@@ -55,6 +55,7 @@ class HowConversation extends Conversation
             ->callbackId('ask_reason');
 
         return $this->ask($question, function (Answer $answer) {
+            \Log::debug($answer->getValue());
             $validator = Validator::make(
                 ['email' => $answer->getValue()],
                 ['email' => 'email']
@@ -62,7 +63,6 @@ class HowConversation extends Conversation
 
             if ($validator->passes()) {
                 $email = $answer->getValue();
-                \Log::debug($email);
                 $alreadyInUse = User::whereEmail($email)
                     ->where('telegram_id', '<>', $this->user->telegram_id)
                     ->first();
