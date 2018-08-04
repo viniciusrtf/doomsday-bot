@@ -62,7 +62,11 @@ class HowConversation extends Conversation
 
             if ($validator->passes()) {
                 $email = $answer->getValue();
-                if (User::whereEmail($email)->first()) {
+                $alreadyInUse = User::whereEmail($email)
+                    ->where('telegram_id', '<>', $this->user->telegram_id)
+                    ->first();
+
+                if ($alreadyInUse) {
                     $this->say('Olha, um outro usuário já cadastrou esse e-mail...');
                     $this->askEmail();
                 } else {
