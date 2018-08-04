@@ -61,12 +61,18 @@ class HowConversation extends Conversation
             );
 
             if ($validator->passes()) {
-                $this->user->update([
-                    'email' => $answer->getValue(),
-                    'doomsday_alert' => 'email'
-                ]);
-                $this->say('Obrigado! Guardei seu e-mail aqui ;-)');
-                $this->askHowFarInAdvance();
+                $email = $answer->getValue();
+                if (User::whereEmail($email)->first()) {
+                    $this->say('Olha, um outro usuário já cadastrou esse e-mail...');
+                    $this->askEmail();
+                } else {
+                    $this->user->update([
+                        'email' => $email,
+                        'doomsday_alert' => 'email'
+                    ]);
+                    $this->say('Obrigado! Guardei seu e-mail aqui ;-)');
+                    $this->askHowFarInAdvance();
+                }
             } else {
                 $this->say('Preciso de um e-mail válido :-/');
                 $this->askEmail();
