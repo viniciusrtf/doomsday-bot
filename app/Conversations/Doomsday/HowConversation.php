@@ -56,6 +56,7 @@ class HowConversation extends Conversation
 
         return $this->ask($question, function (Answer $answer) {
             \Log::debug($answer->getValue());
+            $this->say($answer->getValue());
             $validator = Validator::make(
                 ['email' => $answer->getValue()],
                 ['email' => 'email']
