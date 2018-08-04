@@ -62,6 +62,7 @@ class HowConversation extends Conversation
 
             if ($validator->passes()) {
                 $email = $answer->getValue();
+                \Log::debug($email);
                 $alreadyInUse = User::whereEmail($email)
                     ->where('telegram_id', '<>', $this->user->telegram_id)
                     ->first();
