@@ -24,26 +24,24 @@ class HowConversation extends Conversation
             ->fallback('Unable to ask question')
             ->callbackId('ask_reason')
             ->addButtons([
-                Button::create('Aqui')->value('telegram'),
-                Button::create('E-mail')->value('email'),
+                Button::create('Telegram')->value('Telegram'),
+                Button::create('E-mail')->value('E-mail'),
             ]);
 
         return $this->ask($question, function (Answer $answer) {
-            if ($answer->isInteractiveMessageReply()) {
-                switch($answer->getValue()) {
-                    case 'telegram':
-                        $this->user->update(['doomsday_alert' => 'telegram']);
-                        $this->say('Beleza!');
-                        $this->askHowFarInAdvance();
-                        break;
-                    case 'email':
-                        $this->say('Legal!');
-                        $this->askEmail();
-                        break;
-                }
-            } else {
-                $this->say('Não entendi... :-(');
-                $this->askHow();
+            switch($answer->getText()) {
+                case 'Telegram':
+                    $this->user->update(['doomsday_alert' => 'telegram']);
+                    $this->say('Beleza!');
+                    $this->askHowFarInAdvance();
+                    break;
+                case 'E-mail':
+                    $this->say('Legal!');
+                    $this->askEmail();
+                    break;
+                default:
+                    $this->say('Não entendi... :-(');
+                    $this->askHow();
             }
         });
     }
@@ -56,8 +54,6 @@ class HowConversation extends Conversation
 
         return $this->ask($question, function (Answer $answer) {
             $email = $answer->getText();
-            \Log::debug($email);
-            $this->say($email);
             $validator = Validator::make(
                 ['email' => $email],
                 ['email' => 'email']
