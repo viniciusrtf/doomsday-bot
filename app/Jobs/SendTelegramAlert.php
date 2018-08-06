@@ -42,7 +42,7 @@ class SendTelegramAlert implements ShouldQueue
         $botman = app('botman');
 
         if (!empty($this->alerts)) {
-            $botman->say('Olá! Estes são os meteoros que oferecem algum perigo à Terra nos próximos ' . $user->doomsday_advance . 'dia(s).', $this->user->telegram_id, TelegramDriver::class);
+            $botman->say('Olá! Estes são os meteoros que oferecem algum perigo à Terra nos próximos ' . $this->user->doomsday_advance . 'dia(s).', $this->user->telegram_id, TelegramDriver::class);
             foreach ($this->alerts as $alert) {
                 \Log::debug($alert);
                 \Log::debug(
