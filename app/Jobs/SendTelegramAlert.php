@@ -46,10 +46,10 @@ class SendTelegramAlert implements ShouldQueue
                 sleep(2);
                 $botman->say(
                     'Nome: '            . $alert->name          . "\n" .
-                    'Data da Aprox: '   . $alert->approach_date . '<br>' .
-                    'Diâmetro est.: '   . number_format($alert->estimated_diameter, 2, ',', '.') . ' Km'   . PHP_EOL .
-                    'Velocidade rel.: ' . number_format($alert->relative_velocity, 2, ',', '.')  . ' Km/h' . '\n' .
-                    'Distância (min): ' . number_format($alert->mass_distance, 2, ',', '.')      . ' Km'   . '\n' .
+                    'Data da Aprox: '   . $alert->approach_date . "\n" .
+                    'Diâmetro est.: '   . number_format($alert->estimated_diameter, 2, ',', '.') . ' Km'   . "\n" .
+                    'Velocidade rel.: ' . number_format($alert->relative_velocity, 2, ',', '.')  . ' Km/h' . "\n" .
+                    'Distância (min): ' . number_format($alert->mass_distance, 2, ',', '.')      . ' Km'   . "\n" .
                     'Mais detalhes: '   . $alert->nasa_url
                 , $this->user->telegram_id, TelegramDriver::class);
             }
