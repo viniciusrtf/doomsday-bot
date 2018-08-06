@@ -38,20 +38,30 @@ class SendTelegramAlert implements ShouldQueue
      */
     public function handle()
     {
+        \Log::debug(__METHOD__);
         $botman = app('botman');
 
         if (!empty($this->alerts)) {
             $botman->say('Olá! Estes são os meteoros que oferecem algum perigo à Terra nos próximos ' . $user->doomsday_advance . 'dia(s).', $this->user->telegram_id, TelegramDriver::class);
             foreach ($this->alerts as $alert) {
-                sleep(2);
-                $botman->say(urlencode(
+                \Log::debug($alert);
+                \Log::debug(
                     'Nome: '            . $alert->name          . '\n' .
                     'Data da Aprox: '   . $alert->approach_date . '\n' .
                     'Diâmetro est.: '   . number_format($alert->estimated_diameter, 2, ',', '.') . ' Km'   . '\n' .
                     'Velocidade rel.: ' . number_format($alert->relative_velocity, 2, ',', '.')  . ' Km/h' . '\n' .
                     'Distância (min): ' . number_format($alert->mass_distance, 2, ',', '.')      . ' Km'   . '\n' .
                     'Mais detalhes: '   . $alert->nasa_url
-                ), $this->user->telegram_id, TelegramDriver::class);
+                );
+                sleep(2);
+                $botman->say(
+                    'Nome: '            . $alert->name          . '\n' .
+                    'Data da Aprox: '   . $alert->approach_date . '\n' .
+                    'Diâmetro est.: '   . number_format($alert->estimated_diameter, 2, ',', '.') . ' Km'   . '\n' .
+                    'Velocidade rel.: ' . number_format($alert->relative_velocity, 2, ',', '.')  . ' Km/h' . '\n' .
+                    'Distância (min): ' . number_format($alert->mass_distance, 2, ',', '.')      . ' Km'   . '\n' .
+                    'Mais detalhes: '   . $alert->nasa_url
+                , $this->user->telegram_id, TelegramDriver::class);
             }
         }
     }
