@@ -50,8 +50,6 @@ class GenerateMeteorAlerts implements ShouldQueue
 
             if (count($alerts) > 1) {
                 if ($user->doomsday_alert === 'telegram') {
-                    \Log::debug($user);
-                    \Log::debug($alerts);
                     SendTelegramAlert::dispatch(serialize($user), serialize($alerts));
                 } elseif ($user->doomsday_alert === 'email') {
                     SendEmailAlert::dispatch(serialize($user), serialize($alerts));
