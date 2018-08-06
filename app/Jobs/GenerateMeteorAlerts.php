@@ -2,12 +2,12 @@
 
 namespace App\Jobs;
 
-use Queue;
 use App\User;
 use App\Meteor;
-use App\Jobs\SendEmailAlert;
+use App\Mail\MeteorAlert;
 use App\Jobs\SendTelegramAlert;
 
+use Mail;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -52,7 +52,7 @@ class GenerateMeteorAlerts implements ShouldQueue
                 if ($user->doomsday_alert === 'telegram') {
                     SendTelegramAlert::dispatch(serialize($user), serialize($alerts));
                 } elseif ($user->doomsday_alert === 'email') {
-                    SendEmailAlert::dispatch(serialize($user), serialize($alerts));
+                    Mail::to($user)->send(new MeteorAlert(serialize($user), serialize($alerts)));
                 }
             }
         }

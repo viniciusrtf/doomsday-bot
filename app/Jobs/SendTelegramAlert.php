@@ -2,8 +2,6 @@
 
 namespace App\Jobs;
 
-use App\User;
-
 use BotMan\BotMan\BotMan;
 use BotMan\Drivers\Telegram\TelegramDriver;
 use Illuminate\Bus\Queueable;
@@ -49,7 +47,7 @@ class SendTelegramAlert implements ShouldQueue
                     'Data da Aprox: '   . $alert->approach_date . "\n" .
                     'Diâmetro est.: '   . number_format($alert->estimated_diameter, 2, ',', '.') . ' Km'   . "\n" .
                     'Velocidade rel.: ' . number_format($alert->relative_velocity, 2, ',', '.')  . ' Km/h' . "\n" .
-                    'Distância (min): ' . number_format($alert->mass_distance, 2, ',', '.')      . ' Km'   . "\n" .
+                    'Distância: '       . number_format($alert->mass_distance, 2, ',', '.')      . ' Km'   . "\n" .
                     'Mais detalhes: '   . $alert->nasa_url
                 , $this->user->telegram_id, TelegramDriver::class);
             }
