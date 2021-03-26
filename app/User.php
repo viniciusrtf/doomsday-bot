@@ -15,7 +15,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'info', 'telegram_id', 'doomsday_alert', 'doomsday_advance',
+        'name', 'email', 'password', 'info', 'telegram_id',
+        'is_neo_notification_enabled', 'neo_notification_channel', 
+        'neo_notification_days_in_advance',
     ];
 
     /**

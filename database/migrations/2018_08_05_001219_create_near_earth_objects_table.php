@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMeteorsTable extends Migration
+class CreateNearEarthObjectsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateMeteorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('meteors', function (Blueprint $table) {
+        Schema::create('near_earth_objects', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('nasa_id');
+            $table->integer('provider_id');
             $table->string('name');
-            $table->string('nasa_url');
+            $table->string('info_url');
             $table->boolean('hazardous');
             $table->float('estimated_diameter', 20, 10);
             $table->float('relative_velocity', 20, 10);
@@ -34,6 +34,6 @@ class CreateMeteorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('meteors');
+        Schema::dropIfExists('near_earth_objects');
     }
 }

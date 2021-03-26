@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Jobs\Nasa;
+namespace App\Jobs\NearEarthObjects;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Services\Nasa\MeteorService;
+use App\Services\NearEarthObjects\NeoServiceInterface;
 
-class FetchMeteors implements ShouldQueue
+class FetchHazardous implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -20,6 +20,6 @@ class FetchMeteors implements ShouldQueue
      */
     public function handle()
     {
-        app()->make(MeteorService::class)->fetch();
+        app()->make(NeoServiceInterface::class)->fetch();
     }
 }

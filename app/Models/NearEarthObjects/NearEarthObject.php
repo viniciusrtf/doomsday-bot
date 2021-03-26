@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models\NearEarthObjects;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Meteor extends Model
+class NearEarthObject extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,7 +12,7 @@ class Meteor extends Model
      * @var array
      */
     protected $fillable = [
-        'nasa_id', 'name', 'nasa_url', 'hazardous', 'estimated_diameter',
+        'provider_id', 'name', 'info_url', 'hazardous', 'estimated_diameter',
         'relative_velocity', 'mass_distance', 'approach_date'
     ];
 }

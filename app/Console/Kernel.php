@@ -5,8 +5,8 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
-use App\Jobs\Nasa\FetchMeteors;
-use App\Jobs\GenerateMeteorAlerts;
+use App\Jobs\NearEarthObjects\FetchHazardous;
+use App\Jobs\NearEarthObjects\GenerateNotifications;
 
 class Kernel extends ConsoleKernel
 {
@@ -27,14 +27,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
-        $schedule->job(new FetchMeteors)->everyMinute();
-        \Log::debug('Runned FecthMeteos');
-
-        $schedule->job(new GenerateMeteorAlerts)->everyMinute();
-        \Log::debug('Runned GenerateMeteorAlerts');
-
+        $schedule->job(new FetchHazardous)->everyMinute();
+        $schedule->job(new GenerateNotifications)->everyMinute();
     }
 
     /**

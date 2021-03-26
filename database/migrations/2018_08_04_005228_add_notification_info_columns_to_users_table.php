@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddDoomsdayAdvanceColumnToUsersTable extends Migration
+class AddNotificationInfoColumnsToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,9 @@ class AddDoomsdayAdvanceColumnToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('doomsday_alert')->nullable();
-            $table->integer('doomsday_advance')->unsigned()->nullable();
+            $table->boolean('is_neo_notification_enabled')->nullable()->default(0);
+            $table->string('neo_notification_channel')->nullable();
+            $table->integer('neo_notification_days_in_advance')->unsigned()->nullable();
         });
     }
 
@@ -27,8 +28,9 @@ class AddDoomsdayAdvanceColumnToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $this->dropColumn('doomsday_alert');
-            $this->dropColumn('doomsday_advance');
+            $this->dropColumn('is_neo_notification_enabled');
+            $this->dropColumn('neo_notification_channel');
+            $this->dropColumn('neo_notification_days_in_advance');
         });
     }
 }

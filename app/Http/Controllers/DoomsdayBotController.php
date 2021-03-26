@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use BotMan\BotMan\BotMan;
 use Illuminate\Http\Request;
 use App\Conversations\ExampleConversation;
-use App\Conversations\Doomsday\HowConversation;
+use App\Conversations\NearEarthObjects\AreThereNeoToday;
 
 class DoomsdayBotController extends Controller
 {
@@ -31,8 +31,8 @@ class DoomsdayBotController extends Controller
      * Loaded through routes/botman.php
      * @param  BotMan $bot
      */
-    public function doomsdayAlert(BotMan $bot)
+    public function areThereNeoToday(BotMan $bot)
     {
-        $bot->startConversation(new HowConversation);
+        return $bot->startConversation(app()->make(AreThereNeoToday::class)); // "NEO" stands for "Near-Earth Objects"
     }
 }

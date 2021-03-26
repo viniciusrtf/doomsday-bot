@@ -35,4 +35,14 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'nasa_neows' => [
+        'base_uri' => env('NASA_NEOWS_BASE_URI'),
+        'key' => env('NASA_NEOWS_API_KEY')
+    ],
+
+    // For BotMan's Telegram configuration, see config/botman/telegram.php
+    'telegram-bot-api' => [
+        'token' => env('TELEGRAM_BOT_TOKEN', 'YOUR BOT TOKEN HERE')
+    ]
+
 ];
