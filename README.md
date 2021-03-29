@@ -1,23 +1,175 @@
-<p align="center"><img height="188" width="198" src="https://botman.io/img/botman.png"></p>
-<h1 align="center">BotMan Studio</h1>
+<h1 align="center">Doomsday Bot</h1>
 
-## About BotMan Studio
+## About Doomsday Bot
 
-While BotMan itself is framework agnostic, BotMan is also available as a bundle with the great [Laravel](https://laravel.com) PHP framework. This bundled version is called BotMan Studio and makes your chatbot development experience even better. By providing testing tools, an out of the box web driver implementation and additional tools like an enhanced CLI with driver installation, class generation and configuration support, it speeds up the development significantly.
+In the past I asked candidates for dev positions to show their skills through this suggested project: 
 
-## Documentation
+> Build a Telegram chatabot that fetches hazardous asteroids from NASA NEOWS API and tell the user if there's any danger for today. As a bonus, build a feature for receiving regular notifications on these asteroids. Also, write some documentation on how to get your chatbot up and running.
 
-You can find the BotMan and BotMan Studio documentation at [http://botman.io](http://botman.io).
+Well, frankly, the majority of candidates didn't have the time for this (neither would I) and it got retired from the recruitment process.
 
-## Support the development
-**Do you like this project? Support it by donating**
+That said, it is time to release my own solution, because.. why not?
 
-- PayPal: [Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=m%2epociot%40googlemail%2ecom&lc=CY&item_name=BotMan&no_note=0&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest)
-- Patreon: [Donate](https://www.patreon.com/botman)
+## Running it locally (using BotMan Tinker)
 
-## Security Vulnerabilities
+Clone this repository in your local machine.
 
-If you discover a security vulnerability within BotMan or BotMan Studio, please send an e-mail to Marcel Pociot at m.pociot@gmail.com. All security vulnerabilities will be promptly addressed.
+```console
+$ git clone https://github.org/viniciusrtf/doomsday-bot.git
+$ cd doomsday-bot
+```
+
+OK then, now you should make sure you have PHP 7.4 installed in your system. For Ubuntu:
+
+```console
+$ sudo apt update && sudo apt install php7.4 php7.4-curl php7.4-mbstring
+```
+
+Install composer if you don't have it yet
+
+```console
+$ php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+$ php -r "if (hash_file('sha384', 'composer-setup.php') === '756890a4488ce9024fc62c56153228907f1545c228516cbf63f885e036d37e9a59d27d63f46af1d4d07ee0f76181c7d3') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+$ php composer-setup.php
+$ php -r "unlink('composer-setup.php');"
+```
+
+Optionally, to make `composer` a global command in your system:
+
+```console
+$ mv composer.phar /usr/local/bin/composer
+```
+
+Now you can install Laravel, BotMan and all their dependencies:
+
+```console
+$ composer install
+```
+
+Obs: Use `$ php composer.phar install` if you didn't installed it globally.
+
+Now, let's make a .env file and generate a Laravel App Key:
+
+```console
+$ cp .env.example .env
+$ php artisan key:generate
+```
+
+Open the `.env` file with with your favorite text editor and make sure you set database connection to sqlite. 
+
+```
+DB_CONNECTION=sqlite
+```
+
+For the email settings in `.env` file, I prefered to create a free account on SendGrid and creating an API Key, so my email settings is like this:
+
+```
+MAIL_DRIVER=smtp
+MAIL_HOST=smtp.sendgrid.net
+MAIL_PORT=587
+MAIL_USERNAME=apikey
+MAIL_PASSWORD=<my-sendgrid-api-key>
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=<your.authenticated@domain.com>
+MAIL_FROM_NAME="Doomsday Bot"
+```
+
+But you can simplify just using Mailtrap free tier if you're just testing this thing.
+
+Now, you should get a NASA API Key. Go to https://api.nasa.gov/ and fill in the "application form". As I'm writing this (2021/03/29) there was no waiting time to be approved or anything, so the API Key should be provided right away. This could have changed if your reading this too much in the future.
+
+If you got your API Key, make sure there's a line in `.env` file like this:
+
+```
+NASA_NEWOWS_API_KEY=<your-api-key>
+```
+
+Initialize the database and run the migrations:
+
+```console
+$ touch database/database.sqlite
+$ php artisan migrate
+```
+
+Start the BotMan Tinker:
+
+```console
+$ php artisan botman:tinker
+```
+
+A text-based chat will appear on your terminal. Go ahead and ask the Bot this:
+
+```
+Are there any asteroid endangering Earth today?
+```
+
+And if the bot reply accordingly to that, everything should be working fine.
+
+## Testing
+
+The test coverage is minimum at this point, but you can still check if Doomsday Bot code isn't completely broken by executing:
+
+```console
+$ ./vendor/bin/phpunit --testsuite=BotMan
+```
+
+## Running on Telegram
+
+If you must see Doomsday Bot actually doing its thing on Telegram, you'll need a Telegram API Key. In order to do so, open your Telegram (preferably in desktop), and search for the user "BotFather". Open a new conversation with this user and type `/newbot`.
+
+Choose a `name` and a `username` for the bot. If BotFather tells you the username is taken, don't try choosing another, it won't work. That's a bug. type `/newbot` and start again.
+
+If everything goes right, you should receive a "congratulations" message containing your API Key.
+
+Place this key in your `.env` file like this:
+
+```
+TELEGRAM_TOKEN=<your-api-key>
+```
+
+Now you'll need an HTTPS server, otherwise Telegram won't register your chatbot.
+
+**Via ngrok**
+
+With ngrok you can use your local machine as a Web Server opened to the Internet through HTTPS. Doing it is pretty straightforward. Go to https://ngrok.com/download and follow the provided instructions, except that you should use port `8000` while starting a HTTP tunnel. 
+
+Like this:
+
+```console
+$ ./ngrok http 8000
+```
+
+It will provide you with nice HTTP and HTTPS URLs. Put the HTTPS one in your clipbpoard and place it on your `.env` file like this:
+
+```
+APP_URL=<https-url-provided-by-ngrok>
+```
+
+Than, on another Terminal tab, start the built-in Laravel's web server:
+
+```console
+$ php artisan serve
+```
+
+In yet another tab, register your chatbot with Telegram:
+
+```console
+$ php artisan botman:telegram:register
+```
+
+Now you should be able to find your Bot in Telegram, and it should be working fine.
+
+**Via Heroku**
+
+The original deployment of this bot, which is available at http://t.me/VF2DoomsdayBot, was deployed on Heroku, using PostgreSQL instead of SQLite. It is a free, reliable and extremely convenient way of hosting a small project like this one.
+
+If you got here without too much difficulties, I'm betting you can Google your way into Heroku with no brain injuries.
+
+Obs: if you go that way, note that I left a `Procfile` already done for you.
+
+## I'm stuck
+
+Open an issue. I'll do my best to help you out.
 
 ## License
 

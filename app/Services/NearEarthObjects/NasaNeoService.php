@@ -18,7 +18,7 @@ class NasaNeoService implements NearEarthObjectsServiceInterface
     {
         $this->client = new Client([
             'timeout'  => 30,
-            'base_uri' => config('services.nasa_neows.base_uri'),
+            'base_uri' => 'https://api.nasa.gov/neo/rest/v1/feed',
             'query'    => [
                 'api_key'    => config('services.nasa_neows.key'),
                 'start_date' => Carbon::now()->toDateString(),
