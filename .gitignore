@@ -14,4 +14,4 @@ npm-debug.log
 !.env.example
 *.sqlite
 composer.phar
-ngrok
+ngrok*
