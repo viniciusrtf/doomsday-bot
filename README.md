@@ -15,7 +15,7 @@ That said, it is time to release my own solution, because.. why not?
 Clone this repository in your local machine.
 
 ```console
-$ git clone https://github.org/viniciusrtf/doomsday-bot.git
+$ git clone https://github.com/viniciusrtf/doomsday-bot.git
 $ cd doomsday-bot
 ```
 
