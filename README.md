@@ -4,7 +4,7 @@
 
 In the past I asked candidates for dev positions to show their skills through this suggested project: 
 
-> Build a Telegram chatabot that fetches hazardous asteroids from NASA NEOWS API and tell the user if there's any danger for today. As a bonus, build a feature for receiving regular notifications on these asteroids. Also, write some documentation on how to get your chatbot up and running.
+> Build a Telegram chatbot that fetches hazardous asteroids from NASA NEOWS API and tell the user if there's any danger for today. As a bonus, build a feature for receiving regular notifications on these asteroids. Also, write some documentation on how to get your chatbot up and running.
 
 Well, frankly, the majority of candidates didn't have the time for this (neither would I) and it got retired from the recruitment process.
 
