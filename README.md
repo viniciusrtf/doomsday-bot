@@ -182,6 +182,10 @@ If you got here without too much difficulties, I'm betting you can Google your w
 
 Obs: if you go that way, note that I left a `Procfile` already done for you.
 
+## Why didn't you provided a Dockerfile on this project?
+
+It's on the roadmap. The main benefit would be a (probable) reduction on setup documentation and less steps to get the bot up and running. Actually the one candidate that provided a Dcokerfile for this coding homework ended up being hired.
+
 ## I'm stuck
 
 Open an issue. I'll do my best to help you out.
